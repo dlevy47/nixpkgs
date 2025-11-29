@@ -144,7 +144,7 @@ let
       mkAuthKeyFile =
         u:
         lib.nameValuePair "ssh/authorized_keys.d/${u.name}" {
-          mode = "0444";
+          mode = cfg.authorizedKeysMode;
           source = pkgs.writeText "${u.name}-authorized_keys" ''
             ${lib.concatStringsSep "\n" u.openssh.authorizedKeys.keys}
             ${lib.concatMapStrings (f: lib.readFile f + "\n") u.openssh.authorizedKeys.keyFiles}
@@ -424,6 +424,11 @@ in
           keys. The program must be owned by root, not writable by group
           or others and specified by an absolute path.
         '';
+      };
+
+      authorizedKeysMode = lib.mkOption {
+        type = lib.types.str;
+        default = "0444";
       };
 
       authorizedKeysCommandUser = lib.mkOption {
