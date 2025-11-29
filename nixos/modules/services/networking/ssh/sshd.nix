@@ -429,6 +429,7 @@ in
       authorizedKeysMode = lib.mkOption {
         type = lib.types.str;
         default = "0444";
+        description = "";
       };
 
       authorizedKeysCommandUser = lib.mkOption {
